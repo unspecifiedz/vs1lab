@@ -8,6 +8,7 @@
 
 /* Global styling */
 
+
 html {
   box-sizing: border-box;
 }
@@ -28,6 +29,7 @@ html {
   --background-color: #efefef;
   --border-color: #cdcdcd;
   --gray-color: #666;
+  
 }
 
 
@@ -38,11 +40,13 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+
 }
 
 a {
   color: var(--link-color);
 }
+
 
 /* ### TODO ### Styles for other HTML elements */
 
@@ -107,29 +111,74 @@ a {
 }
 
 
+
 /* ### TODO ### Styles for Header Component */
 
-/* ... your code here ... */
+
+
+ .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  background-color: rgba(211, 208, 208, 0.5); 
+
+  nav {
+  
+  }
+  
+  
+  
+  
+}
+
+img {
+  width: 50px;
+
+ }
+
+
+
 
 
 /* ### TODO ### Styles for Main Component */
+main {
+  display: flex;
+  align-items: baseline;
+  padding: 1rem 0;
+  flex: 1;
 
-/* ... your code here ... */
+  img {
+    width: 100%;
+  }
+  
+}
+
 
 
 /* ### TODO ### Styles for Tagging component */
-
-/* ... your code here ... */
+.tagging {
+  display: flex;
+  flex-direction: column;
+}
 
 
 /* ### TODO ### Styles for Discovery component */
+.discovery {
+  display: flex;
+  flex-direction: column;
+}
 
-/* ... your code here ... */
 
 
 /* ### TODO ### Styles for Footer Component */
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 
-/* ... your code here ... */
 
 
 /* ### TODO ### Media Queries */
