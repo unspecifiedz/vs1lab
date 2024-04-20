@@ -8,30 +8,29 @@
 
 /* Global styling */
 
-
 html {
   box-sizing: border-box;
 }
 
 * {
   margin: 0;
-  padding: 0;
+ /* padding: 0;*/
 
   /* This approach prevents issues with 3rd party content-box components */
   box-sizing: inherit;
 }
 
-
 /* Variables (example: see declaration for "a" below) */
 
 :root {
-  --link-color: #00B7FF;
+  --link-color: #00b7ff;
   --background-color: #efefef;
   --border-color: #cdcdcd;
   --gray-color: #666;
-  
+  --header-footer-color: rgba(211, 208, 208, 0.5);
+  --primary-color: rgba(214, 216, 224, 0.5);
+  --shadow-color: rgb(179, 179, 179);
 }
-
 
 /* HTML element styles */
 
@@ -40,18 +39,47 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-
 }
 
 a {
   color: var(--link-color);
 }
 
-
 /* ### TODO ### Styles for other HTML elements */
 
-/* ... your code here ... */
+legend {
+  position: relative;
+  left: 3px;
+}
 
+fieldset {
+  position: relative;
+  font-weight: bold;
+  border-color: rgb(163, 163, 163);
+  border-radius: 10px;
+  border-style: solid;
+  margin: 10px;
+}
+
+label {
+  padding-left: 5px;
+}
+
+form > * {
+  display: block;
+}
+
+input[type="text"] {
+  height: 40px;
+  background-color: var(--primary-color);
+  padding: 7px;
+  border: none;
+  margin-block: 7px;
+  border-radius: 5px;
+  box-shadow: var(--shadow-color) 1px 1px 1px;
+}
+
+/* ... your code here ... */
 
 /* Grid styles (no changes required) */
 
@@ -110,76 +138,97 @@ a {
   width: calc(100% - 1rem);
 }
 
-
-
 /* ### TODO ### Styles for Header Component */
 
-
-
- .header {
+header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  width: 100%;
-  height: 100px;
-  background-color: rgba(211, 208, 208, 0.5); 
+  justify-content: space-between;
+  height: 80px;
+  background-color: var(--header-footer-color);
 
   nav {
-  
+    margin-right: 1rem;
   }
-  
-  
-  
-  
+  img {
+    margin-left: 1rem;
+    width: 3rem;
+  }
 }
 
-img {
-  width: 50px;
-
- }
-
-
-
-
-
 /* ### TODO ### Styles for Main Component */
-main {
-  display: flex;
-  align-items: baseline;
-  padding: 1rem 0;
-  flex: 1;
+.main {
+  padding: 10px;
+  gap: px;
 
   img {
     width: 100%;
   }
-  
 }
 
+.main section {
+  margin: 1rem;
+}
 
 /* ### TODO ### Styles for Tagging component */
 .tagging {
-  display: flex;
-  flex-direction: column;
+  h2 {
+    padding-left: 10px;
+  }
 }
 
+#tag-form {
+  width: 100%;
+}
 
 /* ### TODO ### Styles for Discovery component */
 .discovery {
-  display: flex;
-  flex-direction: column;
+  h2 {
+    padding-left: 12px;
+  }
 }
 
-
+#discoveryFilterForm {
+  width: 100%;
+  margin-bottom: 1rem;
+}
 
 /* ### TODO ### Styles for Footer Component */
 .footer {
+  padding: 20px;
+  align-items: center;
+  font-weight: bold;
+  height: 80px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  background-color: var(--header-footer-color);
 }
 
-
-
 /* ### TODO ### Media Queries */
+@media (max-width: 850px) {
+  .main {
+    flex-direction: column;
+  }
+
+  .tagging {
+    width: calc(100% - 1rem);
+  }
+  .discovery {
+    width: calc(100% - 1rem);
+  }
+
+  .discovery__search > * {
+    width: calc(100% - 1rem);
+  }
+
+  .discovery__wrapper {
+    flex-direction: column;
+  }
+
+  .discovery__wrapper > * {
+    width: calc(100% - 1rem);
+  }
+}
 
 /* ... your code here ... */
