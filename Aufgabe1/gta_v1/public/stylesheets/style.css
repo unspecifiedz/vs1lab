@@ -14,7 +14,7 @@ html {
 
 * {
   margin: 0;
- /* padding: 0;*/
+  /* padding: 0;*/
 
   /* This approach prevents issues with 3rd party content-box components */
   box-sizing: inherit;
@@ -27,9 +27,10 @@ html {
   --background-color: #efefef;
   --border-color: #cdcdcd;
   --gray-color: #666;
-  --header-footer-color: rgba(211, 208, 208, 0.5);
+  --header-footer-color: rgba(121, 129, 49, 0.699);
   --primary-color: rgba(214, 216, 224, 0.5);
   --shadow-color: rgb(179, 179, 179);
+  --button-color: rgba(121, 129, 49, 0.699);
 }
 
 /* HTML element styles */
@@ -48,12 +49,10 @@ a {
 /* ### TODO ### Styles for other HTML elements */
 
 legend {
-  position: relative;
   left: 3px;
 }
 
 fieldset {
-  position: relative;
   font-weight: bold;
   border-color: rgb(163, 163, 163);
   border-radius: 10px;
@@ -61,12 +60,12 @@ fieldset {
   margin: 10px;
 }
 
-label {
-  padding-left: 5px;
-}
-
 form > * {
   display: block;
+}
+
+label {
+  padding-left: 5px;
 }
 
 input[type="text"] {
@@ -78,6 +77,18 @@ input[type="text"] {
   border-radius: 5px;
   box-shadow: var(--shadow-color) 1px 1px 1px;
 }
+
+input[type="submit"] {
+  height: 40px;
+  background-color: var(--button-color);
+  padding: 7px;
+  border: none;
+  margin-block: 7px;
+  border-radius: 5px;
+  box-shadow: var(--shadow-color) 1px 1px 1px;
+}
+
+
 
 /* ... your code here ... */
 
@@ -151,6 +162,7 @@ header {
     margin-right: 1rem;
   }
   img {
+    flex-shrink: 1;
     margin-left: 1rem;
     width: 3rem;
   }
@@ -159,7 +171,8 @@ header {
 /* ### TODO ### Styles for Main Component */
 .main {
   padding: 10px;
-  gap: px;
+  align-self: center;
+  max-width: 1300px; /* größe des hauptteils */
 
   img {
     width: 100%;
@@ -171,26 +184,37 @@ header {
 }
 
 /* ### TODO ### Styles for Tagging component */
-.tagging {
-  h2 {
-    padding-left: 10px;
-  }
-}
 
-#tag-form {
+#tag-form > * {
   width: 100%;
 }
 
 /* ### TODO ### Styles for Discovery component */
+
 .discovery {
   h2 {
     padding-left: 12px;
+  }
+  label {
+    margin-bottom: -15px;
+  }
+  input {
+    width: 100%;
+    
   }
 }
 
 #discoveryFilterForm {
   width: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: 5px;
+}
+
+.discovery__wrapper > * {
+  margin: 10px;
+
+}
+#mapView {
+  width: 100%;
 }
 
 /* ### TODO ### Styles for Footer Component */
@@ -206,7 +230,7 @@ header {
 }
 
 /* ### TODO ### Media Queries */
-@media (max-width: 850px) {
+@media (max-width: 1000px) {
   .main {
     flex-direction: column;
   }
