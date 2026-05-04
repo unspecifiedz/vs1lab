@@ -160,7 +160,7 @@ Wenn sie die Seite auf Ihrem Smartphone testen wollen, werden sie feststellen, d
 
 Gestalten sie das Layout der GT-App als **verschachteltes zweispaltiges Grid**: Die erste Spalte enthält das Tagging-Widget mit dem Tagging-Formular. Die zweite Spalte enthält das Discovery-Widget. Dies beginnt mit dem Filter Formular. Darunter sollen zwei weitere verschachtelte Spalten für die Ergebnisliste und für die Karte folgen.
 
-Bezüglich **Responsive Design** soll die Breite der Spalten sich relativ zur verfügbaren Bildschirmbreite bei gleichbleibendem Verhältnis der Spalten untereinander anpassen. Ab einer minimalen Bildschirmbreite sollen alle Spalten "untereinander klappen". Es gibt dann also nur noch eine Spalte mit vielen Reihen.
+Bezüglich **Responsive Design** soll die Breite der Spalten sich relativ zur verfügbaren Bildschirmbreite bei gleichbleibendem Verhältnis der Spalten untereinander anpassen. Ab einer minimalen Bildschirmbreite sollen alle Spalten "untere inander klappen". Es gibt dann also nur noch eine Spalte mit vielen Reihen.
 
 Setzen sie weitere **gestalterische Ziele** um:
 
@@ -193,27 +193,27 @@ Das Ergebnis könnte wie folgt aussehen:
 Zur Übersicht folgen noch mal alle Anforderungen in kompakter Form als Checkliste.
 
 ### Teil 0: Teamentwicklung über GitHub
-- [ ] Ein Fork des Repositories ist angelegt und Gruppenmitglieder sind als Collaborators eingeladen
-- [ ] Jedes Mitglied der Gruppe hat einen eigenen Branch für eine (Unter-)Aufgabe erstellt
-- [ ] Für jeden Branch existiert ein Pull Request gegen den Default-Branch des Forks (master)
-- [ ] Mindestens ein Review-Kommentar oder ein Approval je PR ist vorhanden
-- [ ] Jeder PR ist gemerged
+- [x] Ein Fork des Repositories ist angelegt und Gruppenmitglieder sind als Collaborators eingeladen
+- [x] Jedes Mitglied der Gruppe hat einen eigenen Branch für eine (Unter-)Aufgabe erstellt
+- [x] Für jeden Branch existiert ein Pull Request gegen den Default-Branch des Forks (master)
+- [x] Mindestens ein Review-Kommentar oder ein Approval je PR ist vorhanden
+- [x] Jeder PR ist gemerged
 
 ### Teil A: Formulare fertigstellen
 
-- [ ] `Input` Elemente im Tagging- und Discovery-Formular ergänzen
-  - [ ] Felder im Tagging Formular: `latitude`, `longitude`, `name` und `hashtag`
-  - [ ] Felder im Discovery Formular: `searchterm` sowie `latitude` und `longitude` als versteckte Eingaben
-  - [ ] Eindeutige `id` Attribute für die Felder
-  - [ ] Für alle Felder jeweils ein `label`
-  - [ ] Platzhalter für alle Felder
-- [ ] `fieldset` und `legend` zur Begrenzung des Formulars
-- [ ] Für jedes Formular ein Element zum Absenden
-- [ ] Formular-Validierung
-  - [ ] Latitude und Longitude mit festen Werten
-  - [ ] Im Tagging-Formular: Name obligatorisch, Hashtag optional
-  - [ ] Namen: max. 10 Buchstaben lang
-  - [ ] Hashtags: beginnen mit `#`, max. 10 Buchstaben
+- [x] `Input` Elemente im Tagging- und Discovery-Formular ergänzen
+  - [x] Felder im Tagging Formular: `latitude`, `longitude`, `name` und `hashtag`
+  - [x] Felder im Discovery Formular: `searchterm` sowie `latitude` und `longitude` als versteckte Eingaben
+  - [x] Eindeutige `id` Attribute für die Felder
+  - [x] Für alle Felder jeweils ein `label`
+  - [x] Platzhalter für alle Felder
+- [x] `fieldset` und `legend` zur Begrenzung des Formulars
+- [x] Für jedes Formular ein Element zum Absenden
+- [x] Formular-Validierung
+  - [x] Latitude und Longitude mit festen Werten
+  - [x] Im Tagging-Formular: Name obligatorisch, Hashtag optional
+  - [x] Namen: max. 10 Buchstaben lang
+  - [x] Hashtags: beginnen mit `#`, max. 10 Buchstaben
 
 ### Teil B: Seite mit CSS3 gestalten
 

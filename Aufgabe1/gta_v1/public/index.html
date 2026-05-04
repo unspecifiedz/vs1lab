@@ -26,25 +26,48 @@
             <h2>Tagging</h2>
 
             <!-- ############### VS1Lab 1a Form 1 Start -->
-            <form id="tag-form" action="/tagging" method="post">
 
+                
+            <form id="tag-form" action="/tagging" method="post">
+                <fieldset>
+                    <legend>Add a new GeoTag</legend>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" pattern="[A-Za-z]{1,10}" placeholder="Name of the location" required />
+                    <label for="tag-latitude">latitude:</label>
+                    <input type="text" id="tag-latitude" name="latitude" value="49.01379" readonly />
+                    <label for="tag-longitude">Longitude:</label>
+                    <input type="text" id="tag-longitude" name="longitude" value="8.404435" readonly />
+                    <label for="hashtag">Hashtag:</label>
+                    <input type="text" id="hashtag" name="hashtag" pattern="#[A-Za-z]{0,10}" placeholder="Hashtag (e.g. #sight)"/>
+                    <input type="submit" id="searchTermButton" value="Add Tag">
+                </fieldset>
                 <!-- ... your code here ... -->
 
             </form>
             <!-- ############### VS1Lab 1a Form 1 End -->
-
+        
         </section>
 
         <section class="main__discovery discovery">
             <h2 class="discovery__title">Discovery</h2>
 
+            
+            
             <!-- ############### VS1Lab 1a Form 2 Start -->
             <form class="discovery__search" id="discoveryFilterForm" action="/discovery" method="post">
-
-                <!-- ... your code here ... -->
-
-            </form>
+                <fieldset>
+                    <legend>Search</legend>
+                    <label for="searchTerm">Search term or keyword:</label>
+                    <input type="text" id="searchTerm" name="searchTerm" placeholder="e.g. Karlsruhe" required>
+                    <input type="submit" name="search" id="searchButton" value="Search">
+                    <input type="hidden" id="discovery-latitude" name="latitude" value="49.01379" >
+                    <input type="hidden" id="discovery-longitude" name="longitude" value="8.404435">
+                </fieldset>
+                    <!-- ... your code here ... -->
+                </form>
+            
             <!-- ############### VS1Lab 1a Form 2 End -->
+        
 
             <div class="discovery__wrapper">
                 <div class="discovery__taglist">
