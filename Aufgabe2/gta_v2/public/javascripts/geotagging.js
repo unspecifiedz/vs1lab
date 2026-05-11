@@ -141,7 +141,56 @@ class MapManager {
  */
 // ... your code here ...
 
-class updateLocation {
+function updateLocation() {
+
+    LocationHelper.findLocation(function(helper) {
+
+        // Tagging-form
+        document.getElementById("tag-latitude").value =
+            helper.latitude;
+
+        document.getElementById("tag-longitude").value = 
+            helper.longitude;
+
+        // Discovery-Form
+
+        document.getElementById("discovery-latitude").value = 
+            helper.latitude;
+
+        document.getElementById("discovery-longitude").value =
+            helper.longitude;
+
+        // create map
+
+        let mapManager = new MapManager();
+
+        mapManager.initMap(
+            helper.latitude,
+            helper.longitude
+        );
+
+        mapManager.updateMarkers(
+            helper.latitude,
+            helper.longitude
+        );
+
+        let image = document.getElementById("mapView")
+
+        if (image) {
+            image.remove();
+        }
+
+        let span = document.querySelector("#map span");
+
+        if (span) {
+            span.remove();
+        }
+    
+    
+    });
+
+    
+
     
 
 
@@ -150,5 +199,8 @@ class updateLocation {
 
 // Wait for the page to fully load its DOM content, then call updateLocation
 document.addEventListener("DOMContentLoaded", () => {
-    alert("Please change the script 'geotagging.js'");
+    updateLocation();
+    //alert("Please change the script 'geotagging.js'");
+
+
 });
