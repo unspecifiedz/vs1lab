@@ -100,7 +100,7 @@ Zur Übersicht folgen noch mal alle Anforderungen in kompakter Form als Checklis
 
 ### 1. Teilaufgabe: Koordinaten bestimmen
 
-- [ ] Funktion `updateLocation` erstellen
+- [x] Funktion `updateLocation` erstellen
   - [ ] Nach dem Laden automatisch aufrufen
   - [ ] Auslesen der Position mit `findLocation`
   - [ ] Koordinaten in die Formulare eintragen
