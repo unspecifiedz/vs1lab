@@ -4,6 +4,22 @@
  * A class to help using the HTML5 Geolocation API.
  */
 // eslint-disable-next-line no-unused-vars
+var GEOLOCATION_API = {
+    getCurrentPosition: function(onsuccess) {
+        onsuccess({
+            "coords": {
+                "latitude": 49.013790,
+                "longitude": 8.390071,
+                "altitude": null,
+                "accuracy": 39,
+                "altitudeAccuracy": null,
+                "heading": null,
+                "speed": null
+            },
+            "timestamp": 1775140116396
+        });
+    }
+};
 class LocationHelper {
     // Location values for latitude and longitude are private properties to protect them from changes.
     #latitude = '';
@@ -38,7 +54,8 @@ class LocationHelper {
      * @param {*} callback a function that will be called with a LocationHelper instance as parameter, that has the current location details
      */
     static findLocation(callback) {
-        const geoLocationApi = navigator.geolocation
+        //const geoLocationApi = navigator.geolocation
+        const geoLocationApi = GEOLOCATION_API;
 
         if (!geoLocationApi) {
             throw new Error("The GeoLocation API is unavailable.");

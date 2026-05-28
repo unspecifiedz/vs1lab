@@ -31,6 +31,14 @@ const GeoTag = require('../models/geotag');
 // eslint-disable-next-line no-unused-vars
 const GeoTagStore = require('../models/geotag-store');
 
+const GeoTagExamples = require('../models/geotag-examples');
+
+const store = new GeoTagStore();
+GeoTagExamples.tagList.forEach(entry => {
+  const [name, latitude, longitude, hashtag] = entry;
+  store.addGeoTag(new GeoTag(latitude, longitude, name, hashtag));
+});
+
 /**
  * Route '/' for HTTP 'GET' requests.
  * (http://expressjs.com/de/4x/api.html#app.get.method)
@@ -42,7 +50,13 @@ const GeoTagStore = require('../models/geotag-store');
 
 // TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [] })
+  const defaultLocation = {latitude: 49.013790, longitude: 8.404435};
+  const nearby = store.getNearbyGeoTags(defaultLocation);
+  res.render('index', { 
+    taglist: nearby,
+    latitude: defaultLocation.latitude,
+    longitude: defaultLocation.longitude
+    });
 });
 
 /**
@@ -62,6 +76,32 @@ router.get('/', (req, res) => {
 
 // TODO: ... your code here ...
 
+router.post('/tagging', (req, res) => {
+    // 1. User hat Formular abgeschickt. req.body enthält alle Formularfelder.
+    //    Pack sie in vier einzelne Variablen.
+    const { latitude, longitude, name, hashtag } = req.body;
+    
+    // 2. Bau einen neuen GeoTag aus den Daten. Konstruktor-Reihenfolge beachten.
+    const newTag = new GeoTag(latitude, longitude, name, hashtag);
+    
+    // 3. Pack den neuen Tag in den Store.
+    store.addGeoTag(newTag);
+    
+    // 4. Bau ein Location-Objekt für die Suche (mit Shorthand).
+    const location = { latitude, longitude };
+    
+    // 5. Hol alle Tags in der Nähe — inklusive dem gerade hinzugefügten.
+    const nearby = store.getNearbyGeoTags(location);
+    
+    // 6. Render das Template mit der aktualisierten Liste UND den Koordinaten,
+    //    damit das Template die Inputs mit den Werten vorbefüllen kann.
+    res.render('index', {
+        taglist: nearby,
+        latitude: latitude,
+        longitude: longitude
+    });
+});
+
 /**
  * Route '/discovery' for HTTP 'POST' requests.
  * (http://expressjs.com/de/4x/api.html#app.post.method)
@@ -79,5 +119,18 @@ router.get('/', (req, res) => {
  */
 
 // TODO: ... your code here ...
+
+router.post('/discovery', (req, res) => {
+  const { searchTerm, latitude, longitude } = req.body;
+
+  const location = { longitude, latitude };
+  const results = store.searchNearbyGeoTags(location, undefined, searchTerm);
+
+  res.render('index', {
+    taglist: results,
+    latitude: latitude,
+    longitude: longitude
+  });
+});
 
 module.exports = router;
