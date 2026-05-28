@@ -45,10 +45,10 @@
                 <form id="tag-form" action="/tagging" method="post">
                     <fieldset>
                         <legend>Add a new GeoTag</legend>
-                        <label for="tag-latitude">latitude:</label>
-                        <input type="text" id="tag-latitude" name="latitude" value="49.01379" readonly />
+                        <label for="tag-latitude">Latitude:</label>
+                        <input type="text" id="tag-latitude" name="latitude" value="<%= latitude %>" readonly />
                         <label for="tag-longitude">Longitude:</label>
-                        <input type="text" id="tag-longitude" name="longitude" value="8.404435" readonly />
+                        <input type="text" id="tag-longitude" name="longitude" value="<%= longitude %>" readonly />
                         <label for="name">Name:</label>
                         <input type="text" id="name" name="name" maxlength="10" pattern="[A-Za-z]{1,10}" placeholder="Name of the location" required />
                         <label for="hashtag">Hashtag:</label>
@@ -74,8 +74,8 @@
                         <label for="searchTerm">Search term or keyword:</label>
                         <input type="text" id="searchTerm" name="searchTerm" placeholder="e.g. Karlsruhe" required>
                         <input type="submit" name="search" id="searchButton" value="Search">
-                        <input type="hidden" id="discovery-latitude" name="latitude" value="49.01379" >
-                        <input type="hidden" id="discovery-longitude" name="longitude" value="8.404435">
+                        <input type="hidden" id="discovery-latitude" name="latitude" value="<%= latitude %>" >
+                        <input type="hidden" id="discovery-longitude" name="longitude" value="<%= longitude %>">
                     </fieldset>
                             <!-- ... your code here ... -->
                     </form>
@@ -93,7 +93,7 @@
                         </div>
                     
                     
-                        <div id="map" class="discovery__map col-9">
+                        <div id="map" class="discovery__map col-9" data-tags='<%= JSON.stringify(taglist) %>'>
                             <img src="./images/mapview.jpg" alt="a map with locations" id="mapView" />
                             <span>Result map</span>
                     </div>
@@ -110,7 +110,9 @@
     <!-- Load JavaScripts
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="./javascripts/geotagging.js"></script> 
+    <script src="./javascripts/location-helper.js"></script>
+    <script src="./javascripts/map-manager.js"></script>
+    <script src="./javascripts/geotagging.js"></script>
     
 </body>
 

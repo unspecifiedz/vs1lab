@@ -27,6 +27,41 @@ class InMemoryGeoTagStore{
 
     // TODO: ... your code here ...
 
-}
+    #geoTagStore = []
 
+    #distance(lat_1, long_1, lat_2, long_2) {
+        return Math.sqrt(
+            (lat_1 - lat_2) * (lat_1 - lat_2) +
+            (long_1 - long_2) * (long_1 - long_2)  
+        );
+    }
+
+    addGeoTag(geoTag) {
+        this.#geoTagStore.push(geoTag);
+    }
+
+    removeGeoTag(name) {
+        const idx = this.#geoTagStore.findIndex(t => t.name === name)
+        if (idx !== -1) {
+            this.#geoTagStore.splice(idx, 1)
+        }
+    }
+
+    getNearbyGeoTags(location, radius = 0.03) {
+        return this.#geoTagStore.filter(
+            t => this.#distance(t.latitude, t.longitude, location.latitude, location.longitude) < radius);
+
+    }
+
+    searchNearbyGeoTags(location, radius = 0.03, keyword = "") {
+        const lowerKeyword = keyword.toLowerCase();
+        return this.#geoTagStore.filter(
+            t => this.#distance(t.latitude, t.longitude, location.latitude, location.longitude) < radius
+                && (t.name.toLowerCase().includes(lowerKeyword)
+                    || t.hashtag.toLowerCase().includes(lowerKeyword))
+        );
+
+    }
+
+}
 module.exports = InMemoryGeoTagStore
