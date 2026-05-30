@@ -128,8 +128,8 @@ Zur Übersicht folgen noch mal alle Anforderungen in kompakter Form als Checklis
     - [x] *Response:* gelöschter GeoTag
 - [x] **Servermodule erweitern**
   - [x] Klasse `InMemoryGeoTagStore` mit Primärschlüsseln für GeoTags
-- [ ] Backend **Demonstrator** mit **generischem HTTP-Client**
-  - [ ]  **Lebenszyklus** für GeoTag vorführen: Erstellen, Auslesen, Ändern, Suchen, Löschen
+- [x] Backend **Demonstrator** mit **generischem HTTP-Client**
+  - [x]  **Lebenszyklus** für GeoTag vorführen: Erstellen, Auslesen, Ändern, Suchen, Löschen
 
 ### 2. Teilaufgabe: Client-Erweiterung
 
