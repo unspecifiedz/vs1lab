@@ -116,18 +116,18 @@ Zur Übersicht folgen noch mal alle Anforderungen in kompakter Form als Checklis
 
 ### 1. Teilaufgabe: Server-Erweiterung
 
-- [ ] Neue **Routen** realisieren (`./routers/index.js`)
-  - [ ] GET `/api/geotags`
-    - [ ] Filterbar nach Suchbegriff und Location
-  - [ ] POST `/api/geotags`
-    - [ ] *Response:* neuer GeoTag, URL im Header, HTTP Response Code 201
-  - [ ] GET `/api/geotags/:id`
-  - [ ] PUT `/api/geotags/:id`
-    - [ ] *Response:* aktualisierter GeoTag
-  - [ ] DELETE `/api/geotags/:id`
-    - [ ] *Response:* gelöschter GeoTag
-- [ ] **Servermodule erweitern**
-  - [ ] Klasse `InMemoryGeoTagStore` mit Primärschlüsseln für GeoTags
+- [x] Neue **Routen** realisieren (`./routers/index.js`)
+  - [x] GET `/api/geotags`
+    - [x] Filterbar nach Suchbegriff und Location
+  - [x] POST `/api/geotags`
+    - [x] *Response:* neuer GeoTag, URL im Header, HTTP Response Code 201
+  - [x] GET `/api/geotags/:id`
+  - [x] PUT `/api/geotags/:id`
+    - [x] *Response:* aktualisierter GeoTag
+  - [x] DELETE `/api/geotags/:id`
+    - [x] *Response:* gelöschter GeoTag
+- [x] **Servermodule erweitern**
+  - [x] Klasse `InMemoryGeoTagStore` mit Primärschlüsseln für GeoTags
 - [ ] Backend **Demonstrator** mit **generischem HTTP-Client**
   - [ ]  **Lebenszyklus** für GeoTag vorführen: Erstellen, Auslesen, Ändern, Suchen, Löschen
 

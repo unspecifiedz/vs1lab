@@ -27,7 +27,8 @@ class InMemoryGeoTagStore{
 
     // TODO: ... your code here ...
 
-    #geoTagStore = []
+    #geoTagStore = [];
+    #nextID = 1;    ////// did for A4
 
     #distance(lat_1, long_1, lat_2, long_2) {
         return Math.sqrt(
@@ -37,6 +38,8 @@ class InMemoryGeoTagStore{
     }
 
     addGeoTag(geoTag) {
+        geoTag.id = this.#nextID;
+        this.#nextID++;
         this.#geoTagStore.push(geoTag);
     }
 
@@ -61,6 +64,28 @@ class InMemoryGeoTagStore{
                     || t.hashtag.toLowerCase().includes(lowerKeyword))
         );
 
+    }
+    
+
+
+    ///// DID ALL FOR a4
+    getGeoTagById(id) {
+        return this.#geoTagStore.find(t => t.id === id);
+    }
+
+    updateGeoTag(id, newGeoTag) {
+        const idx = this.#geoTagStore.findIndex(t => t.id === id);
+        if (idx === -1) return undefined;
+        newGeoTag.id = id;
+        this.#geoTagStore[idx] = newGeoTag;
+        return newGeoTag;
+    }
+
+    removeGeoTagById(id) {
+        const idx = this.#geoTagStore.findIndex(t => t.id === id);
+        if (idx === -1) return undefined;
+        const[removed] = this.#geoTagStore.splice(idx, 1);
+        return removed;
     }
 
 }
