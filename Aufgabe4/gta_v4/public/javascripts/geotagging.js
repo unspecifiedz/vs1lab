@@ -8,6 +8,7 @@
 // The console window must be opened explicitly in the browser.
 // Try to find this output in the browser...
 console.log("The geoTagging script is going to start...");
+let mapManager = null;
 
 // Here the API used for geolocations is selected
 // The following declaration is a 'mockup' that always works and returns a fixed position.
@@ -45,8 +46,10 @@ function updateUI(latitude, longitude) {
     document.getElementById("discovery-longitude").value = longitude;
 
     // Map
-    const mapManager = new MapManager();
-    mapManager.initMap(latitude, longitude);
+    if (mapManager === null) {
+        mapManager = new MapManager();
+        mapManager.initMap(latitude, longitude);
+    }
 
     // Read taglist from data-tags attribute on #map and parse JSON
     const mapDiv = document.getElementById("map");
@@ -87,10 +90,86 @@ function updateLocation() {
         }
 }
 
+function updateDiscovery(tags) {
+    // refresh result list
+    const list = document.getElementById("discoveryResults");
+    list.innerHTML = "";
+    
+    tags.forEach(tag => {
+        list.innerHTML += `<li>${tag.name} (${tag.latitude}, ${tag.longitude}) ${tag.hashtag}</li>`;
+
+    });
+
+    // refresh map
+    const latitude = document.getElementById("tag-latitude").value;
+    const longitude = document.getElementById("tag-longitude").value;
+    mapManager.updateMarkers(latitude, longitude, tags);
+
+}
+
 // Wait for the page to fully load its DOM content, then call updateLocation
 document.addEventListener("DOMContentLoaded", () => {
     updateLocation();
     //alert("Please change the script 'geotagging.js'");
+
+    // MY CHANGES
+
+    // catch tagging form
+    const taggingForm = document.getElementById("tag-form");
+    taggingForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (!taggingForm.checkValidity()) {
+            taggingForm.reportValidity();
+            return;
+        }
+        
+        const formData = new FormData(taggingForm);
+        const data = Object.fromEntries(formData);
+        
+        try {
+            const response = await fetch("/api/geotags", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            });
+            const newTag = await response.json();
+            
+            const params = new URLSearchParams({
+                latitude: newTag.latitude,
+                longitude: newTag.longitude
+            });
+            const listResponse = await fetch(("/api/geotags?" + params.toString()));
+            const tags = await listResponse.json();
+            updateDiscovery(tags);
+        }
+        catch (error) {
+            console.error("network-error", error);
+        }
+    });
+
+    // catch discovery form
+    const discoveryForm = document.getElementById("discoveryFilterForm");
+    discoveryForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (!discoveryForm.checkValidity()) {
+            discoveryForm.reportValidity();
+            return;
+        }
+
+        const formData = new FormData(discoveryForm);
+        const data = Object.fromEntries(formData);
+        const params = new URLSearchParams(data);
+        const url = "/api/geotags?" + params.toString();
+        try {
+            const response = await fetch(url);
+            const result = await response.json();
+        
+            updateDiscovery(result);
+        }
+        catch (error){
+            console.error("network-error", error)
+        }
+    });
 
 
 });
