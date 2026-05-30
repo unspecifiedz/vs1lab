@@ -28,6 +28,13 @@ const GeoTag = require('../models/geotag');
 const GeoTagStore = require('../models/geotag-store');
 
 // App routes (A3)
+const GeoTagExamples = require('../models/geotag-examples');
+
+const store = new GeoTagStore();
+GeoTagExamples.tagList.forEach(entry => {
+  const [name, latitude, longitude, hashtag] = entry;
+  store.addGeoTag(new GeoTag(latitude, longitude, name, hashtag));
+});
 
 /**
  * Route '/' for HTTP 'GET' requests.
@@ -39,7 +46,13 @@ const GeoTagStore = require('../models/geotag-store');
  */
 
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [] })
+  const defaultLocation = {latitude: 49.013790, longitude: 8.404435};
+  const nearby = store.getNearbyGeoTags(defaultLocation);
+  res.render('index', { 
+    taglist: nearby,
+    latitude: defaultLocation.latitude,
+    longitude: defaultLocation.longitude
+    });
 });
 
 // API routes (A4)
@@ -57,7 +70,18 @@ router.get('/', (req, res) => {
  */
 
 // TODO: ... your code here ...
+router.get('/api/geotags', (req, res) => {
+  const { searchTerm, latitude, longitude } = req.query;
+  const lat = parseFloat(latitude) || 49.013790;
+  const long = parseFloat(longitude) || 8.404435;
+  const location = { latitude: lat, longitude: long };
 
+  const keyword = searchTerm || "";
+
+  const results = store.searchNearbyGeoTags(location, undefined, keyword);
+
+  res.json(results)
+});
 
 /**
  * Route '/api/geotags' for HTTP 'POST' requests.
@@ -71,7 +95,22 @@ router.get('/', (req, res) => {
  */
 
 // TODO: ... your code here ...
-
+router.post('/api/geotags', (req, res) => {
+    // 1. User hat Formular abgeschickt. req.body enthält alle Formularfelder.
+    //    Pack sie in vier einzelne Variablen.
+    const { latitude, longitude, name, hashtag } = req.body;
+    
+    // 2. Bau einen neuen GeoTag aus den Daten. Reihenfolge beachten.
+    const newTag = new GeoTag(latitude, longitude, name, hashtag);
+    
+    // 3. Pack den neuen Tag in den Store.
+    store.addGeoTag(newTag);
+    
+    
+    // 6. Render das Template mit der aktualisierten Liste UND den Koordinaten,
+    res.location('/api/geotags/' + newTag.id);
+    res.status(201).json(newTag);
+});
 
 /**
  * Route '/api/geotags/:id' for HTTP 'GET' requests.
@@ -84,7 +123,16 @@ router.get('/', (req, res) => {
  */
 
 // TODO: ... your code here ...
+router.get('/api/geotags/:id', (req, res) => {
+  const id = parseInt(req.params.id)
+  const results = store.getGeoTagById(id);
 
+  if (!results) {
+    return res.status(404).json({ error: "GeoTag not found" });
+  }
+
+  res.json(results)
+});
 
 /**
  * Route '/api/geotags/:id' for HTTP 'PUT' requests.
@@ -101,7 +149,19 @@ router.get('/', (req, res) => {
  */
 
 // TODO: ... your code here ...
+router.put('/api/geotags/:id', (req, res) => {
 
+    const { latitude, longitude, name, hashtag } = req.body;
+    const id = parseInt(req.params.id);
+    const newTag = new GeoTag(latitude, longitude, name, hashtag);
+    
+    const result = store.updateGeoTag(id, newTag);
+    
+    if (!result) {
+      return res.status(404).json({ error: "GeoTag-ID not found or GeoTag does not exist"})
+    }
+    res.json(result);
+});
 
 /**
  * Route '/api/geotags/:id' for HTTP 'DELETE' requests.
@@ -115,5 +175,17 @@ router.get('/', (req, res) => {
  */
 
 // TODO: ... your code here ...
+
+router.delete('/api/geotags/:id', (req, res) => {
+
+  const id = parseInt(req.params.id);
+  const result = store.removeGeoTagById(id);
+
+  if (!result) {
+    return res.status(404).json({ error: "GeoTag not found, cannot remove"});
+  }
+
+  res.json(result);
+});
 
 module.exports = router;
