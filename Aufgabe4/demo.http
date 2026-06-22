@@ -1,0 +1,37 @@
+@host = http://localhost:3000
+
+### POST: Create new GeoTag ##
+POST {{host}}/api/geotags
+Content-Type: application/json
+
+{
+    "latitude": 49.013,
+    "longitude": 8.404,
+    "name": "DemoTag",
+    "hashtag": "#demo"
+}
+
+### GET by id: Read the new Tag from its ID ##
+GET {{host}}/api/geotags/12
+
+### PUT: change the geotag with the given ID to the new geotag ##
+PUT {{host}}/api/geotags/12
+Content-Type: application/json
+
+{
+    "latitude": 49.020,
+    "longitude": 8.410,
+    "name": "changedDemo",
+    "hashtag": "#changedDemo"
+}
+
+### GET by query: search for a tag by filtering for lat,long,name.. ## 
+GET {{host}}/api/geotags?searchTerm=changedDemo&latitude=49.020&longitude=8.410
+
+### DELETE by id: delete a Tag by id ##
+DELETE {{host}}/api/geotags/12
+
+### VERIFY: verify if the tag is deleted ##
+GET {{host}}/api/geotags/12
+
+
