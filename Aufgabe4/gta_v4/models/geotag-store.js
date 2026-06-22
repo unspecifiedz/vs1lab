@@ -96,7 +96,6 @@ class InMemoryGeoTagStore{
     // A4: Löscht den GeoTag mit der ID und gibt ihn zurück (undefined bei
     // Nichtfund). .splice liefert das array mit den entfernten elementen die man hier als parameter mitgibt,
     // daher die Destrukturierung [removed].
-    // hier nachfrage, wie das mit dem const[removed] wirllich das element entfernt
     removeGeoTagById(id) {
         const idx = this.#geoTagStore.findIndex(t => t.id === id);
         if (idx === -1) return undefined;

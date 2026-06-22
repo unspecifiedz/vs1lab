@@ -103,7 +103,7 @@ function updateLocation() {
 // dem Anlegen eines Tags aufgerufen. In A3 hat das noch der Server per
 // EJS gerendert; in A4 baut der Client die <li>-Einträge selbst.
 function updateDiscovery(tags) {
-    // //Ergebnisliste leeren und pro Tag neu aufbauen (Template-String).
+    //Ergebnisliste leeren und pro Tag neu aufbauen (Template-String).
     const list = document.getElementById("discoveryResults");
     list.innerHTML = "";
     
@@ -112,7 +112,7 @@ function updateDiscovery(tags) {
 
     });
 
-     // // Nur die Marker aktualisieren (Karte existiert bereits, s. updateUI)
+     //  Nur die Marker aktualisieren (Karte existiert bereits, s. updateUI)
     const latitude = document.getElementById("tag-latitude").value;
     const longitude = document.getElementById("tag-longitude").value;
     mapManager.updateMarkers(latitude, longitude, tags);
@@ -130,20 +130,20 @@ document.addEventListener("DOMContentLoaded", () => {
     // A4: Tagging-Formular abfangen und per AJAX (statt Form-Submit) senden
     const taggingForm = document.getElementById("tag-form");
     taggingForm.addEventListener("submit", async (event) => {
-        // // natives Absenden + Page-Reload verhindern.
+        // natives Absenden + Page-Reload verhindern.
         event.preventDefault();
-        // // HTML5-Formularvalidierung aus A1 erhalten.
+        //  HTML5-Formularvalidierung aus A1 erhalten.
         if (!taggingForm.checkValidity()) {
             taggingForm.reportValidity();
             return;
         }
         
-        // // Formularfelder einsammeln und in ein Objekt umwandeln.
+        //  Formularfelder einsammeln und in ein Objekt umwandeln.
         const formData = new FormData(taggingForm);
         const data = Object.fromEntries(formData);
         
         try {
-            // // Neuen Tag per HTTP POST als JSON an die REST-API senden.
+            //  Neuen Tag per HTTP POST als JSON an die REST-API senden.
             const response = await fetch("/api/geotags", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             const newTag = await response.json();
             
-            // // Nach dem Anlegen die Umgebung des neuen Tags per GET holen
+            //  Nach dem Anlegen die Umgebung des neuen Tags per GET holen
             // (POST liefert nur den einen Tag, updateDiscovery braucht aber
             // eine Liste) und Anzeige aktualisieren.
             const params = new URLSearchParams({
@@ -171,8 +171,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // A4: Discovery-Formular abfangen und per AJAX (statt Form-Submit) suchen.
     const discoveryForm = document.getElementById("discoveryFilterForm");
     discoveryForm.addEventListener("submit", async (event) => {
-         // // natives Absenden + Page-Reload verhindern, Validierung erhalten.
-        event.preventDefault();
+         //  natives Absenden + Page-Reload verhindern, Validierung erhalten.
+        event.preventDefault(); // sagt seite nicht den standard weg zu gehe n (neuladen)
         if (!discoveryForm.checkValidity()) {
             discoveryForm.reportValidity();
             return;
@@ -184,15 +184,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const params = new URLSearchParams(data);
         const url = "/api/geotags?" + params.toString();
         try {
-            // // Suche per HTTP GET mit Query-Parametern, Ergebnis ist JSON-Array
+            // Suche per HTTP GET mit Query-Parametern, Ergebnis ist JSON-Array
             const response = await fetch(url);
             const result = await response.json();
             
-            // // Liste + Karte mit den Suchergebnissen aktualisieren
+            //  Liste + Karte mit den Suchergebnissen aktualisieren
             updateDiscovery(result);
         }
         catch (error){
-            console.error("network-error", error)
+            console.error("network-error - couldn't process request", error)
         }
     });
 
