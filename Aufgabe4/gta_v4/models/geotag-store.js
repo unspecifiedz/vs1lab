@@ -28,7 +28,10 @@ class InMemoryGeoTagStore{
     // TODO: ... your code here ...
 
     #geoTagStore = [];
-    #nextID = 1;    ////// did for A4
+    // A4: Counter für eindeutige Primärschlüssel. Jeder neue GeoTag bekommt
+    // die nächste freie ID; der Counter zählt nur hoch und vergibt IDs nie
+    // erneut, damit jede ID über die Server-Laufzeit eindeutig bleibt.
+    #nextID = 1;    
 
     #distance(lat_1, long_1, lat_2, long_2) {
         return Math.sqrt(
@@ -38,6 +41,9 @@ class InMemoryGeoTagStore{
     }
 
     addGeoTag(geoTag) {
+        // A4: Primärschlüssel vergeben, bevor der Tag gespeichert wird.
+        // Das Objekt wird editiert -> Aufrufer hat danach die ID am Tag
+        // (z.B. für den Location-Header der POST-Route).
         geoTag.id = this.#nextID;
         this.#nextID++;
         this.#geoTagStore.push(geoTag);
@@ -68,11 +74,17 @@ class InMemoryGeoTagStore{
     
 
 
-    ///// DID ALL FOR a4
+    // A4: ID-basierte Methoden für die REST-API (GET/PUT/DELETE auf /:id)
+
+    //  Liefert den GeoTag mit der ID oder undefined, wenn keiner existiert.
+    // .find gibt das erste passende Element zurück (undefined bei Nichtfund).
     getGeoTagById(id) {
         return this.#geoTagStore.find(t => t.id === id);
     }
 
+    // A4: Ersetzt den GeoTag mit der ID durch newGeoTag. Die ID bleibt
+    // stabil (wird auf das neue Objekt übertragen). Rückgabe: aktualisierter
+    // Tag, oder undefined wenn die ID nicht existiert.
     updateGeoTag(id, newGeoTag) {
         const idx = this.#geoTagStore.findIndex(t => t.id === id);
         if (idx === -1) return undefined;
@@ -81,6 +93,10 @@ class InMemoryGeoTagStore{
         return newGeoTag;
     }
 
+    // A4: Löscht den GeoTag mit der ID und gibt ihn zurück (undefined bei
+    // Nichtfund). .splice liefert das array mit den entfernten elementen die man hier als parameter mitgibt,
+    // daher die Destrukturierung [removed].
+    // hier nachfrage, wie das mit dem const[removed] wirllich das element entfernt
     removeGeoTagById(id) {
         const idx = this.#geoTagStore.findIndex(t => t.id === id);
         if (idx === -1) return undefined;
