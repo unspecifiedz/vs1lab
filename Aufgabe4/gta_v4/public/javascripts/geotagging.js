@@ -8,6 +8,11 @@
 // The console window must be opened explicitly in the browser.
 // Try to find this output in the browser...
 console.log("The geoTagging script is going to start...");
+
+// A4: Eine gemeinsame MapManager-Instanz für alle Funktionen. Die Karte
+// wird nur EINMAL erstellt (initMap), danach werden nur noch Marker
+// aktualisiert. Verhindert den Leaflet-Fehler "Map container is already
+// initialized" bei wiederholten Suchen/Taggings.
 let mapManager = null;
 
 // Here the API used for geolocations is selected
@@ -31,7 +36,7 @@ var GEOLOCATION_API = {
 
 // This is the real API.
 // If there are problems with it, comment out the line.
-//GEOLOCATION_API = navigator.geolocation;
+GEOLOCATION_API = navigator.geolocation;
 
 /**
  * Updates UI elements (forms, map, removes placeholder) with given coordinates.
@@ -46,6 +51,9 @@ function updateUI(latitude, longitude) {
     document.getElementById("discovery-longitude").value = longitude;
 
     // Map
+    // A4: Karte nur beim ersten Mal initialisieren (mapManager noch null).
+    // Bei späteren Aufrufen wird der Block übersprungen, da die globale
+    // Instanz schon existiert -> keine doppelte Initialisierung.
     if (mapManager === null) {
         mapManager = new MapManager();
         mapManager.initMap(latitude, longitude);
@@ -90,8 +98,12 @@ function updateLocation() {
         }
 }
 
+// A4: Aktualisiert die Anzeige (Ergebnisliste + Karte) clientseitig aus
+// einer Tag-Liste, ohne Seiten-Reload. Wird nach Discovery-Suche UND nach
+// dem Anlegen eines Tags aufgerufen. In A3 hat das noch der Server per
+// EJS gerendert; in A4 baut der Client die <li>-Einträge selbst.
 function updateDiscovery(tags) {
-    // refresh result list
+    // //Ergebnisliste leeren und pro Tag neu aufbauen (Template-String).
     const list = document.getElementById("discoveryResults");
     list.innerHTML = "";
     
@@ -100,7 +112,7 @@ function updateDiscovery(tags) {
 
     });
 
-    // refresh map
+     // // Nur die Marker aktualisieren (Karte existiert bereits, s. updateUI)
     const latitude = document.getElementById("tag-latitude").value;
     const longitude = document.getElementById("tag-longitude").value;
     mapManager.updateMarkers(latitude, longitude, tags);
@@ -115,18 +127,23 @@ document.addEventListener("DOMContentLoaded", () => {
     // MY CHANGES
 
     // catch tagging form
+    // A4: Tagging-Formular abfangen und per AJAX (statt Form-Submit) senden
     const taggingForm = document.getElementById("tag-form");
     taggingForm.addEventListener("submit", async (event) => {
+        // // natives Absenden + Page-Reload verhindern.
         event.preventDefault();
+        // // HTML5-Formularvalidierung aus A1 erhalten.
         if (!taggingForm.checkValidity()) {
             taggingForm.reportValidity();
             return;
         }
         
+        // // Formularfelder einsammeln und in ein Objekt umwandeln.
         const formData = new FormData(taggingForm);
         const data = Object.fromEntries(formData);
         
         try {
+            // // Neuen Tag per HTTP POST als JSON an die REST-API senden.
             const response = await fetch("/api/geotags", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -134,6 +151,9 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             const newTag = await response.json();
             
+            // // Nach dem Anlegen die Umgebung des neuen Tags per GET holen
+            // (POST liefert nur den einen Tag, updateDiscovery braucht aber
+            // eine Liste) und Anzeige aktualisieren.
             const params = new URLSearchParams({
                 latitude: newTag.latitude,
                 longitude: newTag.longitude
@@ -148,22 +168,27 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // catch discovery form
+    // A4: Discovery-Formular abfangen und per AJAX (statt Form-Submit) suchen.
     const discoveryForm = document.getElementById("discoveryFilterForm");
     discoveryForm.addEventListener("submit", async (event) => {
+         // // natives Absenden + Page-Reload verhindern, Validierung erhalten.
         event.preventDefault();
         if (!discoveryForm.checkValidity()) {
             discoveryForm.reportValidity();
             return;
         }
 
+        // A4: Formularfelder als Query-Parameter für den GET-Request aufbereiten.
         const formData = new FormData(discoveryForm);
         const data = Object.fromEntries(formData);
         const params = new URLSearchParams(data);
         const url = "/api/geotags?" + params.toString();
         try {
+            // // Suche per HTTP GET mit Query-Parametern, Ergebnis ist JSON-Array
             const response = await fetch(url);
             const result = await response.json();
-        
+            
+            // // Liste + Karte mit den Suchergebnissen aktualisieren
             updateDiscovery(result);
         }
         catch (error){
